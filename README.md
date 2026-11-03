@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# IKOMI Perú — sitio con Next.js
 
-## Getting Started
+Réplica de estudio del sitio corporativo de IKOMI Perú (repuestos para camiones y buses), hecha con App Router. No es el sitio oficial.
 
-First, run the development server:
+## Cómo ejecutarlo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Hace falta Node.js 20 o superior. En PowerShell, dentro de esta carpeta:
+
+```powershell
+npm.cmd install
+npm.cmd run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Otros scripts:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm.cmd run build` compila para producción. Tiene que terminar sin errores.
+- `npm.cmd run start` publica en local lo que generó `build`.
+- `npm.cmd run lint` revisa el código con ESLint.
 
-## Learn More
+En PowerShell uso `npm.cmd` porque `npm.ps1` está bloqueado por la política de scripts.
 
-To learn more about Next.js, take a look at the following resources:
+## Rutas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| URL | Archivo |
+| --- | --- |
+| `/` | `app/page.tsx` |
+| `/nosotros` | `app/nosotros/page.tsx` |
+| `/servicios` | `app/servicios/page.tsx` |
+| `/productos` | `app/productos/page.tsx` |
+| `/productos/[slug]` | `app/productos/[slug]/page.tsx` |
+| `/marcas` | `app/marcas/page.tsx` |
+| `/contacto` | `app/contacto/page.tsx` |
+| cualquier otra | `app/not-found.tsx` |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Los productos están en `data/productos.ts`. Si el slug no existe, la ficha llama a `notFound()`.
 
-## Deploy on Vercel
+## Árbol de componentes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```text
+app/layout.tsx                         Server Component
+├── Navbar                             Client Component  ("use client", usePathname)
+├── main
+│   ├── Hero                           Server Component
+│   ├── BrandStrip                     Server Component
+│   ├── SectionTitle                   Server Component
+│   ├── ProductCard                    Server Component
+│   ├── ContactForm                    Client Component  (el botón no debe recargar)
+│   └── páginas de app/                Server Components
+└── Footer                             Server Component
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`Navbar` y `Footer` viven en el layout raíz, así salen en todas las páginas. `app/productos/layout.tsx` es un layout anidado solo del catálogo.
+
+## Decisiones y bitácora
+
+- `DECISIONES.md` explica la configuración, el layout anidado y por qué el menú es cliente.
+- `BITACORA_IA.md` registra el uso de IA y dos correcciones.
+- `evidencias/` es para las capturas de build, Network y los anchos 375, 768 y 1280. La lista está en `evidencias/QUE-CAPTURAR.txt`.
+
+
