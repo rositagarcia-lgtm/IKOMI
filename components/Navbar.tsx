@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -26,9 +27,14 @@ export function Navbar() {
     <header className="sticky top-0 z-40 bg-navy text-white">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
         <Link href="/" className="flex items-center gap-3" onClick={() => setAbierto(false)}>
-          <span className="grid h-11 w-11 place-items-center rounded bg-brand font-display text-lg font-bold">
-            IKM
-          </span>
+          <Image
+            src="/logo-ikomi.webp"
+            alt="IKOMI Perú"
+            width={72}
+            height={32}
+            className="h-9 w-auto"
+            priority
+          />
           <span className="leading-tight">
             <span className="block font-display text-xl font-bold tracking-wide">IKOMI PERÚ</span>
             <span className="block text-[10px] uppercase tracking-[0.18em] text-white/70">
